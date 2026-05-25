@@ -61,19 +61,19 @@
         }
 
         function iniciarJuego() {
-            if (!stompClient) {
-                log('⚠️ Primero debes conectarte.');
-                return;
-            }
-            const roomId = document.getElementById('roomId').value;
-            
-            // Creamos el payload que espera StartGamePayload
-            const payload = JSON.stringify({ 'roomId': roomId });
-            
-            // Enviamos el mensaje a la ruta del GameSyncController
-            stompClient.send("/app/start", {}, payload);
-            log('\n🚀 Comando START enviado para la sala: ' + roomId);
-        }
+			if (!stompClient) {
+				log('⚠️ Primero debes conectarte.');
+				return;
+			}
+			const roomId = document.getElementById('roomId').value;
+    
+			// Creamos el payload que espera StartGamePayload
+			const payload = JSON.stringify({ 'roomId': roomId });
+    
+			stompClient.send("/app/start/" + roomId, {}, payload);
+    
+			log('\n🚀 Comando START enviado para la sala: ' + roomId);
+		}
     </script>
 </body>
 </html>
