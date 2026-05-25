@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Prueba de WebSockets - Bomba</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        button { padding: 10px; margin: 5px; cursor: pointer; }
+        #consola { background: #1e1e1e; color: #00ff00; padding: 15px; height: 300px; overflow-y: scroll; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <h2>Panel de Pruebas: Servidor Bomba</h2>
+    
+    <div>
+        <label>ID de la Sala: </label>
+        <input type="text" id="roomId" value="SALA-XYZ" />
+    </div>
+    <br>
+    
+    <button onclick="conectar()" style="background-color: #add8e6;">1. Conectar y Suscribirse</button>
+    <button onclick="iniciarJuego()" style="background-color: #90ee90;">2. Enviar Comando /start</button>
+
+    <h3>Consola de eventos:</h3>
+    <pre id="consola"></pre>
+
+    <script>
+        let stompClient = null;
+
+        function log(mensaje) {
+            const consola = document.getElementById('consola');
+            consola.innerHTML += mensaje + '\n';
+            consola.scrollTop = consola.scrollHeight; // Auto-scroll
+        }
+
+        function conectar() {
+            const roomId = document.getElementById('roomId').value;
+            // 1. Apuntamos al endpoint que definiste en WebSocketConfig
+            const socket = new SockJS('http://localhost:8080/ws-bomba');
+            stompClient = Stomp.over(socket);
+
+            // 2. Nos conectamos
+            stompClient.connect({}, function (frame) {
+                log('✅ Conectado al servidor: ' + frame);
+                
+                // 3. Nos suscribimos al canal específico de esa sala
+                const topicUrl = '/topic/room/' + roomId;
+                stompClient.subscribe(topicUrl, function (mensajeRecibido) {
+                    log('\n🔥 MENSAJE RECIBIDO DESDE EL SERVIDOR 🔥');
+                    // Formateamos el JSON para que se lea bonito
+                    const datosJuego = JSON.parse(mensajeRecibido.body);
+                    log(JSON.stringify(datosJuego, null, 2));
+                });
+                log('📡 Suscrito exitosamente a: ' + topicUrl);
+                
+            }, function(error) {
+                log('❌ Error de conexión: ' + error);
+            });
+        }
+
+        function iniciarJuego() {
+            if (!stompClient) {
+                log('⚠️ Primero debes conectarte.');
+                return;
+            }
+            const roomId = document.getElementById('roomId').value;
+            
+            // Creamos el payload que espera StartGamePayload
+            const payload = JSON.stringify({ 'roomId': roomId });
+            
+            // Enviamos el mensaje a la ruta del GameSyncController
+            stompClient.send("/app/start", {}, payload);
+            log('\n🚀 Comando START enviado para la sala: ' + roomId);
+        }
+    </script>
+</body>
+</html>
