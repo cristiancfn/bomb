@@ -1,0 +1,16 @@
+<div class="circuit-board">
+    <div class="serial-tag">MFG: AGUS-U | MOD: T0N1C-19</div>
+
+    <div class="wires-container">
+        @for (cable of cables(); track cable.id) {
+        <div class="wire-wrapper">
+            <div class="wire" [class.cut]="cable.isCut" (click)="cortarCable(cable.id)" role="button" tabindex="0">
+                <!-- Los tres fragmentos del cable que heredarán el color de su padre -->
+                <div class="wire-start" [ngClass]="cable.colorClass"></div>
+                <div class="wire-middle" [ngClass]="cable.colorClass"></div>
+                <div class="wire-end" [ngClass]="cable.colorClass"></div>
+            </div>
+        </div>
+        }
+    </div>
+</div>
