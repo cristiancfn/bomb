@@ -13,7 +13,7 @@
                 <button class="btn btn-connect" (click)="conectar()">
                     CONECTAR A SALA
                 </button>
-                <button class="btn btn-start" (click)="iniciar()" [disabled]="!gameState()">
+                <button class="btn btn-start" (click)="iniciar()" [disabled]="!isConnected()">
                     INICIAR PARTIDA
                 </button>
             </div>

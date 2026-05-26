@@ -17,6 +17,7 @@ export class LobbyComponent {
 
   roomId = signal<string>('SALA-XYZ');
   gameState = this.webSocketService.gameState;
+  isConnected = this.webSocketService.isConnected;
 
   constructor() {
     // Efecto reactivo: escucha cambios en gameState automáticamente

@@ -7,9 +7,13 @@ import { GameSession } from '../models/game-session';
   providedIn: 'root'
 })
 export class WebSocketService {
+
   private stompClient: Client | null = null;
   public gameState: WritableSignal<GameSession | null> = signal<GameSession | null>(null);
+  public isConnected: WritableSignal<boolean> = signal<boolean>(false);
+
   constructor() { }
+
   public conectar(roomId: string): void {
     if (this.stompClient && this.stompClient.active) {
       console.warn('Ya existe una conexión WebSocket activa.');
@@ -22,6 +26,7 @@ export class WebSocketService {
       reconnectDelay: 5000,
       onConnect: () => {
         console.log(`Conectado a la sala: ${roomId}`);
+        this.isConnected.set(true);
 
         this.stompClient?.subscribe(`/topic/room/${roomId}`, (message) => {
           try {
