@@ -1,0 +1,33 @@
+<div class="lobby-container">
+    <div class="defusal-panel">
+        <h2 class="panel-title">PANEL DE DESACTIVACIÓN</h2>
+
+        <div class="controls-section">
+            <div class="input-group">
+                <label for="roomId">ID DE SALA:</label>
+                <input id="roomId" type="text" [ngModel]="roomId()" (ngModelChange)="roomId.set($event)"
+                    placeholder="Ingresa el ID de la sala" class="cyber-input" />
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-connect" (click)="conectar()">
+                    CONECTAR A SALA
+                </button>
+                <button class="btn btn-start" (click)="iniciar()" [disabled]="!gameState()">
+                    INICIAR PARTIDA
+                </button>
+            </div>
+        </div>
+
+        <div class="terminal-section">
+            <h3 class="terminal-title">>_ ESTADO DEL JUEGO</h3>
+
+            <!-- Sintaxis de control de flujo de Angular 17+ -->
+            @if (gameState()) {
+            <pre class="terminal-output">{{ gameState() | json }}</pre>
+            } @else {
+            <pre class="terminal-output empty">> ESPERANDO CONEXIÓN DEL OPERADOR...</pre>
+            }
+        </div>
+    </div>
+</div>
