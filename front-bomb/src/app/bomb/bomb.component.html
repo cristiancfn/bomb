@@ -1,2 +1,31 @@
-<h1 class="text-red">BOMBA ACTIVA</h1>
-<app-wires />
+<div class="bomb-container">
+    @if (gameState(); as state) {
+    <!-- ESTADO: EN PROGRESO -->
+    @if (state.status === 'IN_PROGRESS') {
+    <div class="active-bomb-ui">
+        <div class="strike-indicator">
+            <h1 class="text-red">BOMBA ACTIVA</h1>
+            <h2 class="strike-text">Errores: {{ state.currentStrikes }} / {{ state.maxStrikes }}</h2>
+        </div>
+
+        <div class="modules-container">
+            <app-wires />
+        </div>
+    </div>
+    }
+
+    <!-- ESTADO: EXPLOSIÓN -->
+    @else if (state.status === 'EXPLODED') {
+    <div class="fullscreen-panel exploded">
+        <h1 class="huge-text blink">¡BOOM!<br>LA BOMBA HA EXPLOTADO</h1>
+    </div>
+    }
+
+    <!-- ESTADO: VICTORIA -->
+    @else if (state.status === 'DEFUSED') {
+    <div class="fullscreen-panel defused">
+        <h1 class="huge-text">¡BOMBA DESACTIVADA!</h1>
+    </div>
+    }
+    }
+</div>

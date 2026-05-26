@@ -47,6 +47,7 @@ export class WebSocketService {
     });
     this.stompClient.activate();
   }
+
   public iniciarJuego(roomId: string): void {
     if (this.stompClient && this.stompClient.active) {
       this.stompClient.publish({
@@ -55,6 +56,28 @@ export class WebSocketService {
       });
     } else {
       console.error('No se puede iniciar el juego: el cliente WebSocket no está conectado.');
+    }
+  }
+
+  public enviarStrike(roomId: string): void {
+    if (this.stompClient && this.stompClient.active) {
+      this.stompClient.publish({
+        destination: `/app/strike/${roomId}`,
+        body: JSON.stringify({ roomId })
+      });
+    } else {
+      console.error('No se puede enviar strike: cliente desconectado.');
+    }
+  }
+
+  public resolverModulo(roomId: string): void {
+    if (this.stompClient && this.stompClient.active) {
+      this.stompClient.publish({
+        destination: `/app/resolve/${roomId}`,
+        body: JSON.stringify({ roomId })
+      });
+    } else {
+      console.error('No se puede resolver módulo: cliente desconectado.');
     }
   }
 }
