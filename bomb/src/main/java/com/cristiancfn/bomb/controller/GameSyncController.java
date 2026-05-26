@@ -1,36 +1,47 @@
 package com.cristiancfn.bomb.controller;
 
-import org.springframework.messaging.handler.annotation.DestinationVariable;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.stereotype.Controller;
-
 import com.cristiancfn.bomb.dto.StartGamePayload;
 import com.cristiancfn.bomb.model.GameSession;
-
-import java.util.Random;
+import com.cristiancfn.bomb.service.GameService;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Controller;
 
 @Controller
 public class GameSyncController {
 
-    private final Random random = new Random();
+    private final GameService gameService;
+    private final SimpMessagingTemplate messagingTemplate;
+
+    public GameSyncController(GameService gameService, SimpMessagingTemplate messagingTemplate) {
+        this.gameService = gameService;
+        this.messagingTemplate = messagingTemplate;
+    }
 
     @MessageMapping("/start/{roomId}")
-    @SendTo("/topic/room/{roomId}")
-    public GameSession startGame(@DestinationVariable String roomId, StartGamePayload payload) {
-        // En un caso real, el roomId probablemente vendría del payload o de la URL. 
-        // Usamos la variable de destino para asegurar el ruteo dinámico con @SendTo
-        String activeRoomId = payload.roomId() != null ? payload.roomId() : roomId;
-        
-        return new GameSession(
-                activeRoomId,
-                GameSession.GameStatus.IN_PROGRESS,
-                random.nextLong(),
-                300,
-                0,
-                3,
-                3,
-                0
-        );
+    public void startGame(@DestinationVariable String roomId, StartGamePayload payload) {
+        String activeRoomId = payload != null && payload.roomId() != null ? payload.roomId() : roomId;
+        GameSession session = gameService.iniciarPartida(activeRoomId);
+
+        messagingTemplate.convertAndSend("/topic/room/" + activeRoomId, session);
+    }
+
+    @MessageMapping("/strike/{roomId}")
+    public void registrarStrike(@DestinationVariable String roomId) {
+        GameSession session = gameService.registrarStrike(roomId);
+
+        if (session != null) {
+            messagingTemplate.convertAndSend("/topic/room/" + roomId, session);
+        }
+    }
+
+    @MessageMapping("/resolve/{roomId}")
+    public void resolverModulo(@DestinationVariable String roomId) {
+        GameSession session = gameService.resolverModulo(roomId);
+
+        if (session != null) {
+            messagingTemplate.convertAndSend("/topic/room/" + roomId, session);
+        }
     }
 }

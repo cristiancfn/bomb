@@ -2,26 +2,28 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Prueba de WebSockets - Bomba</title>
+    <title>Prueba de WebSockets - Bomba (V2)</title>
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        button { padding: 10px; margin: 5px; cursor: pointer; }
-        #consola { background: #1e1e1e; color: #00ff00; padding: 15px; height: 300px; overflow-y: scroll; font-family: monospace; }
+        body { font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f9; }
+        button { padding: 10px 15px; margin: 5px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; font-weight: bold;}
+        #consola { background: #1e1e1e; color: #00ff00; padding: 15px; height: 400px; overflow-y: scroll; font-family: monospace; border-radius: 8px;}
+        .panel { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 15px;}
     </style>
 </head>
 <body>
-    <h2>Panel de Pruebas: Servidor Bomba</h2>
+    <h2>Panel de Pruebas: Servidor Bomba (V2)</h2>
     
-    <div>
-        <label>ID de la Sala: </label>
-        <input type="text" id="roomId" value="SALA-XYZ" />
+    <div class="panel">
+        <label><b>ID de la Sala: </b></label>
+        <input type="text" id="roomId" value="SALA-XYZ" style="padding: 5px; font-size: 16px;"/>
+        <br><br>
+        <button onclick="conectar()" style="background-color: #add8e6;">1. Conectar y Suscribirse</button>
+        <button onclick="iniciarJuego()" style="background-color: #90ee90;">2. Iniciar /start</button>
+        <button onclick="enviarStrike()" style="background-color: #ff7f7f; color: white;">3. Cometer Error /strike</button>
+        <button onclick="resolverModulo()" style="background-color: #ffd700;">4. Resolver Módulo /resolve</button>
     </div>
-    <br>
-    
-    <button onclick="conectar()" style="background-color: #add8e6;">1. Conectar y Suscribirse</button>
-    <button onclick="iniciarJuego()" style="background-color: #90ee90;">2. Enviar Comando /start</button>
 
     <h3>Consola de eventos:</h3>
     <pre id="consola"></pre>
@@ -32,24 +34,20 @@
         function log(mensaje) {
             const consola = document.getElementById('consola');
             consola.innerHTML += mensaje + '\n';
-            consola.scrollTop = consola.scrollHeight; // Auto-scroll
+            consola.scrollTop = consola.scrollHeight;
         }
 
         function conectar() {
             const roomId = document.getElementById('roomId').value;
-            // 1. Apuntamos al endpoint que definiste en WebSocketConfig
             const socket = new SockJS('http://localhost:8080/ws-bomba');
             stompClient = Stomp.over(socket);
 
-            // 2. Nos conectamos
             stompClient.connect({}, function (frame) {
                 log('✅ Conectado al servidor: ' + frame);
                 
-                // 3. Nos suscribimos al canal específico de esa sala
                 const topicUrl = '/topic/room/' + roomId;
                 stompClient.subscribe(topicUrl, function (mensajeRecibido) {
-                    log('\n🔥 MENSAJE RECIBIDO DESDE EL SERVIDOR 🔥');
-                    // Formateamos el JSON para que se lea bonito
+                    log('\n🔥 ESTADO ACTUALIZADO DESDE EL SERVIDOR 🔥');
                     const datosJuego = JSON.parse(mensajeRecibido.body);
                     log(JSON.stringify(datosJuego, null, 2));
                 });
@@ -61,19 +59,25 @@
         }
 
         function iniciarJuego() {
-			if (!stompClient) {
-				log('⚠️ Primero debes conectarte.');
-				return;
-			}
-			const roomId = document.getElementById('roomId').value;
-    
-			// Creamos el payload que espera StartGamePayload
-			const payload = JSON.stringify({ 'roomId': roomId });
-    
-			stompClient.send("/app/start/" + roomId, {}, payload);
-    
-			log('\n🚀 Comando START enviado para la sala: ' + roomId);
-		}
+            if (!stompClient) return log('⚠️ Primero debes conectarte.');
+            const roomId = document.getElementById('roomId').value;
+            stompClient.send("/app/start/" + roomId, {}, JSON.stringify({ 'roomId': roomId }));
+            log('\n🚀 Comando START enviado...');
+        }
+
+        function enviarStrike() {
+            if (!stompClient) return log('⚠️ Primero debes conectarte.');
+            const roomId = document.getElementById('roomId').value;
+            stompClient.send("/app/strike/" + roomId, {}, JSON.stringify({ 'roomId': roomId }));
+            log('\n❌ Comando STRIKE enviado...');
+        }
+
+        function resolverModulo() {
+            if (!stompClient) return log('⚠️ Primero debes conectarte.');
+            const roomId = document.getElementById('roomId').value;
+            stompClient.send("/app/resolve/" + roomId, {}, JSON.stringify({ 'roomId': roomId }));
+            log('\n✅ Comando RESOLVE enviado...');
+        }
     </script>
 </body>
 </html>

@@ -1,15 +1,23 @@
 package com.cristiancfn.bomb.model;
 
-public record GameSession(
-        String roomId,
-        GameStatus status,
-        Long seed,
-        Integer timeRemainingSeconds,
-        Integer currentStrikes,
-        Integer maxStrikes,
-        Integer modulesCount,
-        Integer modulesResolved
-) {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class GameSession {
+
+    private String roomId;
+    private GameStatus status;
+    private Long seed;
+    private Integer timeRemainingSeconds;
+    private Integer currentStrikes;
+    private Integer maxStrikes;
+    private Integer modulesCount;
+    private Integer modulesResolved;
+
     public enum GameStatus {
         LOBBY,
         IN_PROGRESS,
