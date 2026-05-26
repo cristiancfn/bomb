@@ -1,6 +1,7 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { JsonPipe } from '@angular/common';
+import { Router } from '@angular/router';
 import { WebSocketService } from '../services/web-socket.service';
 
 @Component({
@@ -12,12 +13,22 @@ import { WebSocketService } from '../services/web-socket.service';
 })
 export class LobbyComponent {
   private webSocketService = inject(WebSocketService);
+  private router = inject(Router);
 
-  // Signal reactivo para vincular el input (valor por defecto "SALA-XYZ")
   roomId = signal<string>('SALA-XYZ');
-
-  // Exponemos el estado del juego desde el servicio para leerlo en el template
   gameState = this.webSocketService.gameState;
+
+  constructor() {
+    // Efecto reactivo: escucha cambios en gameState automáticamente
+    effect(() => {
+      const state = this.gameState();
+
+      // Si recibimos estado y el juego pasó a estar en progreso, navegamos a la bomba
+      if (state && state.status === 'IN_PROGRESS') {
+        this.router.navigate(['/bomba']);
+      }
+    });
+  }
 
   conectar(): void {
     const currentRoomId = this.roomId();
