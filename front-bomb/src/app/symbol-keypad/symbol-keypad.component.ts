@@ -1,4 +1,4 @@
-import { Component, Input, inject, signal } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { WebSocketService } from '../services/web-socket.service';
 
 @Component({
@@ -8,14 +8,26 @@ import { WebSocketService } from '../services/web-socket.service';
   styleUrl: './symbol-keypad.component.scss'
 })
 export class SymbolKeypadComponent {
-
   private webSocketService = inject(WebSocketService);
 
   gameState = this.webSocketService.gameState;
 
   // Signals para el estado del módulo
   simbolosVisibles = signal<string[]>(['ぬ', 'あ', 'ゑ', 'ね']);
-  ordenCorrecto = signal<string[]>(['あ', 'ぬ', 'ね', 'ゑ']);
+
+  // El orden correcto ahora es reactivo y depende directamente del número de serie
+  ordenCorrecto = computed(() => {
+    const seed = this.gameState()?.seed || 0;
+    const residuo = Math.abs(seed % 3);
+
+    if (residuo === 0) {
+      return ['あ', 'ぬ', 'ね', 'ゑ'];
+    } else if (residuo === 1) {
+      return ['ゑ', 'ね', 'ぬ', 'あ'];
+    } else {
+      return ['ぬ', 'ゑ', 'あ', 'ね']; // Residuo 2
+    }
+  });
 
   indiceActual = signal<number>(0);
   isResolved = signal<boolean>(false);
@@ -39,7 +51,6 @@ export class SymbolKeypadComponent {
       // Verificamos si completó la secuencia
       if (this.indiceActual() === this.ordenCorrecto().length) {
         this.isResolved.set(true);
-        // Ajusta el nombre del método según exista en tu WebSocketService
         this.webSocketService.resolverModulo(roomId);
       }
     } else {

@@ -25,28 +25,42 @@ export class WiresComponent {
   ]);
 
   cortarCable(id: number): void {
-    // Si el módulo ya fue resuelto, evitamos más acciones
-    if (this.isResolved()) return;
+    if (this.isResolved()) {
+      return;
+    }
 
     const currentGameState = this.gameState();
-    if (!currentGameState) return;
 
-    // Actualizamos inmutablemente visualizando el corte
-    this.cables.update(currentCables =>
-      currentCables.map(cable =>
-        cable.id === id && !cable.isCut ? { ...cable, isCut: true } : cable
-      )
-    );
+    // Si no hay estado aún, abortamos
+    if (!currentGameState) return;
 
     const roomId = currentGameState.roomId;
 
-    // LÓGICA DE PRUEBA: El cable correcto siempre es el último
-    const cablesList = this.cables();
-    const lastCableId = cablesList[cablesList.length - 1].id;
+    // Extracción de variables para la lógica
+    const currentStrikes = currentGameState.currentStrikes;
+    // Utilizamos Math.abs() en caso de que la seed sea negativa
+    const seedStr = Math.abs(currentGameState.seed).toString();
+    const lastDigit = parseInt(seedStr.charAt(seedStr.length - 1), 10);
+    const firstDigit = parseInt(seedStr.charAt(0), 10);
 
-    if (id === lastCableId) {
-      this.webSocketService.resolverModulo(roomId);
+    let correctCableId: number;
+    const isLastDigitOdd = lastDigit % 2 !== 0;
+
+    // Lógica condicional estricta en cascada
+    if (currentStrikes > 0 && isLastDigitOdd) {
+      correctCableId = 4; // Blanco
+    } else if (firstDigit > 5) {
+      correctCableId = 5; // Negro
+    } else if (lastDigit === 0 || lastDigit === 2 || lastDigit === 4) {
+      correctCableId = 2; // Azul
+    } else {
+      correctCableId = 1; // Rojo
+    }
+
+    // Resolución del módulo
+    if (id === correctCableId) {
       this.isResolved.set(true);
+      this.webSocketService.resolverModulo(roomId);
     } else {
       this.webSocketService.enviarStrike(roomId);
     }

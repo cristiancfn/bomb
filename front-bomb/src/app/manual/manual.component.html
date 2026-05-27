@@ -3,7 +3,7 @@
     <div class="watermark" aria-hidden="true">TOP SECRET</div>
 
     <header class="manual-header">
-        <h1>MANUAL DE DESACTIVACIÓN DE BOMBAS</h1>
+        <h1>MANUAL DE DESACTIVACIÓN - TOP SECRET</h1>
         <h2 class="classification">TOP SECRET</h2>
         <hr class="separator" />
     </header>
@@ -19,23 +19,38 @@
     <section class="module-section">
         <h3>Módulo 1: Cables Condicionales</h3>
         <p class="rule-text">
-            El diseño de este circuito está defectuoso. Sin importar los colores de los cables, el operario debe cortar
-            <strong>SIEMPRE</strong> el último cable del panel (el cable inferior). Cortar cualquier otro provocará un
-            corto circuito.
+            ATENCIÓN: Las reglas de este circuito son volátiles. Pida al operario el NÚMERO DE SERIE y evalúe las
+            siguientes condiciones en ESTRICTO ORDEN. Deténgase en la primera que sea verdadera:
         </p>
+        <ul class="symbol-list">
+            <li><strong>REGLA 1:</strong> Si la bomba ya tiene UNO O MÁS ERRORES y el ÚLTIMO DÍGITO de la serie es IMPAR
+                -> Cortar cable BLANCO.</li>
+            <li><strong>REGLA 2:</strong> Si el PRIMER DÍGITO de la serie es MAYOR A 5 -> Cortar cable NEGRO.</li>
+            <li><strong>REGLA 3:</strong> Si el ÚLTIMO DÍGITO de la serie es exactamente 0, 2 o 4 -> Cortar cable AZUL.
+            </li>
+            <li><strong>REGLA 4:</strong> Si no se cumple ninguna -> Cortar cable ROJO.</li>
+        </ul>
     </section>
 
     <section class="module-section">
-        <h3>Módulo 2: Teclado de Símbolos Japoneses</h3>
+        <h3>Módulo 2: Teclado de Símbolos</h3>
         <p class="rule-text">
-            Presione los botones en este estricto orden para evitar una detonación:
+            Tome el NÚMERO DE SERIE y divídalo matemáticamente entre 3. Dependiendo del residuo de esa división, dicte
+            al operario este estricto orden:
         </p>
-        <ol class="symbol-list">
-            <li><span class="symbol">あ</span> (A cruzada)</li>
-            <li><span class="symbol">ぬ</span> (Garabato con bucle)</li>
-            <li><span class="symbol">ね</span> (Zeta con bucle)</li>
-            <li><span class="symbol">ゑ</span> (Resorte extraño)</li>
-        </ol>
+        <ul class="symbol-list">
+            <li><strong>Si el residuo es 0:</strong> 1. <span class="symbol">あ</span> (A cruzada), 2. <span
+                    class="symbol">ぬ</span> (Garabato con bucle), 3. <span class="symbol">ね</span> (Zeta con bucle), 4.
+                <span class="symbol">ゑ</span> (Resorte).
+            </li>
+            <li><strong>Si el residuo es 1:</strong> 1. <span class="symbol">ゑ</span> (Resorte), 2. <span
+                    class="symbol">ね</span> (Zeta con bucle), 3. <span class="symbol">ぬ</span> (Garabato con bucle), 4.
+                <span class="symbol">あ</span> (A cruzada).
+            </li>
+            <li><strong>Si el residuo es 2:</strong> 1. <span class="symbol">ぬ</span> (Garabato con bucle), 2. <span
+                    class="symbol">ゑ</span> (Resorte), 3. <span class="symbol">あ</span> (A cruzada), 4. <span
+                    class="symbol">ね</span> (Zeta con bucle).</li>
+        </ul>
     </section>
 
     <footer class="manual-footer">
