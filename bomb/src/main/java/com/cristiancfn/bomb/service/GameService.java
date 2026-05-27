@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class GameService {
@@ -13,10 +14,12 @@ public class GameService {
     private final Random random = new Random();
 
     public GameSession iniciarPartida(String roomId) {
+        long seed = ThreadLocalRandom.current().nextLong(1_000_000_000_000L, 10_000_000_000_000L);
+
         GameSession session = new GameSession(
                 roomId,
                 GameSession.GameStatus.IN_PROGRESS,
-                random.nextLong(),
+                seed,
                 300, // timeRemainingSeconds
                 0, // currentStrikes
                 3, // maxStrikes
