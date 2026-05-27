@@ -7,4 +7,5 @@ export interface GameSession {
     maxStrikes: number;
     modulesCount: number;
     modulesResolved: number;
+    lastActor?: string;
 }

@@ -110,3 +110,31 @@
         color: #ffeb3b;
     }
 }
+
+.actor-text {
+    color: #e2e8f0;
+    /* Un gris muy claro, casi blanco */
+    font-size: 1.5rem;
+    text-align: center;
+    margin-top: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
+
+    /* Pequeña animación de entrada suave */
+    animation: fadeIn 2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -3,7 +3,6 @@ package com.cristiancfn.bomb.service;
 import com.cristiancfn.bomb.model.GameSession;
 import org.springframework.stereotype.Service;
 
-import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -11,9 +10,8 @@ import java.util.concurrent.ThreadLocalRandom;
 public class GameService {
 
     private final ConcurrentHashMap<String, GameSession> activeGames = new ConcurrentHashMap<>();
-    private final Random random = new Random();
 
-    public GameSession iniciarPartida(String roomId) {
+    public GameSession iniciarPartida(String roomId, String playerName) {
         long seed = ThreadLocalRandom.current().nextLong(1_000_000_000_000L, 10_000_000_000_000L);
 
         GameSession session = new GameSession(
@@ -24,15 +22,17 @@ public class GameService {
                 0, // currentStrikes
                 3, // maxStrikes
                 3, // modulesCount
-                0 // modulesResolved
+                0, // modulesResolved
+                playerName // lastActor
         );
         activeGames.put(roomId, session);
         return session;
     }
 
-    public GameSession registrarStrike(String roomId) {
+    public GameSession registrarStrike(String roomId, String playerName) {
         GameSession session = activeGames.get(roomId);
         if (session != null && session.getStatus() == GameSession.GameStatus.IN_PROGRESS) {
+            session.setLastActor(playerName);
             session.setCurrentStrikes(session.getCurrentStrikes() + 1);
             if (session.getCurrentStrikes() >= session.getMaxStrikes()) {
                 session.setStatus(GameSession.GameStatus.EXPLODED);
@@ -41,9 +41,10 @@ public class GameService {
         return session;
     }
 
-    public GameSession resolverModulo(String roomId) {
+    public GameSession resolverModulo(String roomId, String playerName) {
         GameSession session = activeGames.get(roomId);
         if (session != null && session.getStatus() == GameSession.GameStatus.IN_PROGRESS) {
+            session.setLastActor(playerName);
             session.setModulesResolved(session.getModulesResolved() + 1);
             if (session.getModulesResolved().equals(session.getModulesCount())) {
                 session.setStatus(GameSession.GameStatus.DEFUSED);
@@ -52,9 +53,10 @@ public class GameService {
         return session;
     }
 
-    public GameSession forzarExplosion(String roomId) {
+    public GameSession forzarExplosion(String roomId, String playerName) {
         GameSession session = activeGames.get(roomId);
         if (session != null) {
+            session.setLastActor(playerName);
             session.setStatus(GameSession.GameStatus.EXPLODED);
         }
         return session;

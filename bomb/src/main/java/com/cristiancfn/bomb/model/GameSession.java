@@ -17,6 +17,7 @@ public class GameSession {
     private Integer maxStrikes;
     private Integer modulesCount;
     private Integer modulesResolved;
+    private String lastActor;
 
     public enum GameStatus {
         LOBBY,

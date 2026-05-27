@@ -2,196 +2,79 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background-color: #0d0d12;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding: 20px;
+    height: 100vh;
+    background-color: #1a202c;
 }
 
-.defusal-panel {
-    background: #1e1e24;
-    border: 2px solid #3a3a45;
-    border-radius: 12px;
-    padding: 30px;
+.lobby-card {
+    background-color: #2d3748;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    max-width: 400px;
     width: 100%;
-    max-width: 550px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(0, 0, 0, 0.5);
-    position: relative;
-    overflow: hidden;
+    color: white;
 
-    /* Cinta de advertencia superior */
-    &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 6px;
-        background: repeating-linear-gradient(45deg,
-                #ffcc00,
-                #ffcc00 15px,
-                #111 15px,
-                #111 30px);
+    h1 {
+        margin-top: 0;
+        color: #e2e8f0;
+        letter-spacing: 2px;
+    }
+
+    p {
+        color: #a0aec0;
+        margin-bottom: 25px;
     }
 }
 
-.panel-title {
-    color: #ffffff;
-    text-align: center;
-    font-weight: 900;
-    letter-spacing: 3px;
-    margin-top: 10px;
-    margin-bottom: 30px;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-}
-
-.controls-section {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    margin-bottom: 30px;
-}
-
+/* Nuevo contenedor para agrupar inputs de manera limpia */
 .input-group {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-
-    label {
-        color: #a0a0a0;
-        font-size: 0.85rem;
-        font-weight: bold;
-        letter-spacing: 1.5px;
-    }
+    gap: 15px;
+    margin-bottom: 25px;
 }
 
-.cyber-input {
-    background: #0a0a0c;
-    border: 1px solid #444;
-    color: #fff;
-    padding: 14px 16px;
-    border-radius: 6px;
-    font-size: 1.2rem;
-    font-family: 'Courier New', Courier, monospace;
-    font-weight: bold;
-    text-align: center;
-    transition: all 0.3s ease;
-    outline: none;
+.lobby-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #4a5568;
+    border-radius: 4px;
+    background-color: #1a202c;
+    color: white;
+    font-size: 1.1rem;
+    box-sizing: border-box;
 
     &:focus {
-        border-color: #00ffcc;
-        box-shadow: 0 0 10px rgba(0, 255, 204, 0.2);
+        outline: none;
+        border-color: #63b3ed;
+    }
+
+    &::placeholder {
+        color: #718096;
     }
 }
 
-.action-buttons {
-    display: flex;
-    gap: 15px;
+.btn-connect {
+    width: 100%;
+    padding: 12px;
+    background-color: #c53030;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
 
-    .btn {
-        flex: 1;
-        padding: 14px;
-        border: none;
-        border-radius: 6px;
-        font-weight: 800;
-        font-size: 0.95rem;
-        cursor: pointer;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        transition: all 0.2s ease-in-out;
-
-        &:active:not(:disabled) {
-            transform: scale(0.97);
-        }
-
-        &:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            filter: grayscale(100%);
-        }
+    &:hover:not(:disabled) {
+        background-color: #e53e3e;
     }
 
-    .btn-connect {
-        background-color: #2b5c8f;
-        color: #e0f0ff;
-        border: 1px solid #3c7cc4;
-
-        &:hover:not(:disabled) {
-            background-color: #3574b3;
-            box-shadow: 0 0 15px rgba(60, 124, 196, 0.4);
-        }
-    }
-
-    .btn-start {
-        background-color: #8f2b2b;
-        color: #ffe0e0;
-        border: 1px solid #c43c3c;
-
-        &:hover:not(:disabled) {
-            background-color: #a83232;
-            box-shadow: 0 0 15px rgba(196, 60, 60, 0.4);
-        }
-    }
-}
-
-/* Estilos de la Terminal (Consola) */
-.terminal-section {
-    background: #050505;
-    border: 1px solid #2a2a2a;
-    border-radius: 6px;
-    padding: 16px;
-    position: relative;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
-}
-
-.terminal-title {
-    color: #00ff00;
-    font-family: monospace;
-    font-size: 0.85rem;
-    margin: 0 0 12px 0;
-    opacity: 0.7;
-}
-
-.terminal-output {
-    margin: 0;
-    color: #00ff00;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 0.9rem;
-    line-height: 1.4;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    max-height: 250px;
-    overflow-y: auto;
-    text-shadow: 0 0 4px rgba(0, 255, 0, 0.5);
-
-    /* Scrollbar personalizado estilo cyber */
-    &::-webkit-scrollbar {
-        width: 6px;
-    }
-
-    &::-webkit-scrollbar-track {
-        background: #111;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        background: #00aa00;
-        border-radius: 3px;
-    }
-
-    &.empty {
-        opacity: 0.6;
-        animation: blink 1.5s infinite;
-    }
-}
-
-@keyframes blink {
-
-    0%,
-    100% {
-        opacity: 0.3;
-    }
-
-    50% {
-        opacity: 0.8;
+    &:disabled {
+        background-color: #4a5568;
+        color: #a0aec0;
+        cursor: not-allowed;
     }
 }

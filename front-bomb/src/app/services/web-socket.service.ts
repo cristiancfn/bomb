@@ -11,6 +11,7 @@ export class WebSocketService {
   private stompClient: Client | null = null;
   public gameState: WritableSignal<GameSession | null> = signal<GameSession | null>(null);
   public isConnected: WritableSignal<boolean> = signal<boolean>(false);
+  public playerName = signal<string>('Operario Anónimo');
 
   constructor() { }
 
@@ -52,7 +53,7 @@ export class WebSocketService {
     if (this.stompClient && this.stompClient.active) {
       this.stompClient.publish({
         destination: `/app/start/${roomId}`,
-        body: JSON.stringify({ roomId })
+        body: JSON.stringify({ roomId, playerName: this.playerName() })
       });
     } else {
       console.error('No se puede iniciar el juego: el cliente WebSocket no está conectado.');
@@ -63,7 +64,7 @@ export class WebSocketService {
     if (this.stompClient && this.stompClient.active) {
       this.stompClient.publish({
         destination: `/app/strike/${roomId}`,
-        body: JSON.stringify({ roomId })
+        body: JSON.stringify({ roomId, playerName: this.playerName() })
       });
     } else {
       console.error('No se puede enviar strike: cliente desconectado.');
@@ -74,7 +75,7 @@ export class WebSocketService {
     if (this.stompClient && this.stompClient.active) {
       this.stompClient.publish({
         destination: `/app/resolve/${roomId}`,
-        body: JSON.stringify({ roomId })
+        body: JSON.stringify({ roomId, playerName: this.playerName() })
       });
     } else {
       console.error('No se puede resolver módulo: cliente desconectado.');
@@ -85,7 +86,7 @@ export class WebSocketService {
     if (this.stompClient && this.stompClient.connected) {
       this.stompClient.publish({
         destination: `/app/explode/${roomId}`,
-        body: JSON.stringify({ roomId })
+        body: JSON.stringify({ roomId, playerName: this.playerName() })
       });
       console.log(`[WebSocket] Evento de explosión enviado para la sala: ${roomId}`);
     } else {

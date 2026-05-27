@@ -1,47 +1,51 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { JsonPipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { WebSocketService } from '../services/web-socket.service';
 
 @Component({
   selector: 'app-lobby',
   standalone: true,
-  imports: [FormsModule, JsonPipe],
+  imports: [FormsModule],
   templateUrl: './lobby.component.html',
   styleUrl: './lobby.component.scss'
 })
 export class LobbyComponent {
+  roomId = signal<string>('SALA-XYZ');
+
+  // Nuevo signal local
+  nombreJugador = signal<string>('');
+
   private webSocketService = inject(WebSocketService);
   private router = inject(Router);
 
-  roomId = signal<string>('SALA-XYZ');
-  gameState = this.webSocketService.gameState;
-  isConnected = this.webSocketService.isConnected;
-
   constructor() {
-    // Efecto reactivo: escucha cambios en gameState automáticamente
+    // Escuchamos cuando la conexión WebSocket se complete exitosamente
     effect(() => {
-      const state = this.gameState();
-
-      // Si recibimos estado y el juego pasó a estar en progreso, navegamos a la bomba
-      if (state && state.status === 'IN_PROGRESS') {
+      if (this.webSocketService.isConnected()) {
+        const currentRoom = this.roomId().trim();
+        
+        // Una vez conectados, enviamos el comando para iniciar el juego
+        this.webSocketService.iniciarJuego(currentRoom);
+        
+        // Y navegamos a la vista de la bomba
         this.router.navigate(['/bomba']);
       }
     });
   }
 
   conectar(): void {
-    const currentRoomId = this.roomId();
-    if (currentRoomId.trim()) {
-      this.webSocketService.conectar(currentRoomId);
-    }
-  }
+    const currentRoom = this.roomId().trim();
+    if (currentRoom) {
 
-  iniciar(): void {
-    const currentRoomId = this.roomId();
-    if (currentRoomId.trim()) {
-      this.webSocketService.iniciarJuego(currentRoomId);
+      // Tomamos el nombre, o asignamos "Anónimo" por defecto
+      const nombre = this.nombreJugador().trim() || 'Operario Anónimo';
+      // Lo guardamos en el Signal global del servicio
+      this.webSocketService.playerName.set(nombre);
+
+      // Iniciamos el proceso de conexión asíncrono
+      // (El effect de arriba se encargará del resto cuando termine)
+      this.webSocketService.conectar(currentRoom);
     }
   }
 }

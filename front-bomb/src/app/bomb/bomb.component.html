@@ -22,13 +22,16 @@
     @else if (state.status === 'EXPLODED') {
     <div class="fullscreen-panel exploded">
         <h1 class="huge-text blink">¡BOOM!<br>LA BOMBA HA EXPLOTADO</h1>
+        <h2 class="actor-text">Bomba detonada por: {{ state.lastActor }}</h2>
     </div>
+
     }
 
     <!-- ESTADO: VICTORIA -->
     @else if (state.status === 'DEFUSED') {
     <div class="fullscreen-panel defused">
         <h1 class="huge-text">¡BOMBA DESACTIVADA!</h1>
+        <h2 class="actor-text">Desactivada con éxito. Última acción por: {{ state.lastActor }}</h2>
     </div>
     }
     }
