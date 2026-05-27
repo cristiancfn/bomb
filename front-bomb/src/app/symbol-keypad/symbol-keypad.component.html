@@ -1,0 +1,11 @@
+<div class="keypad-module" [class.resolved]="isResolved()">
+    <div class="keypad-grid">
+        <!-- Usamos el nuevo control de flujo @for de Angular 17+ -->
+        @for (simbolo of simbolosVisibles(); track simbolo) {
+        <button type="button" class="symbol-button" [class.pressed]="isBotonPresionado(simbolo)"
+            [disabled]="isResolved()" (click)="presionarBoton(simbolo)">
+            {{ simbolo }}
+        </button>
+        }
+    </div>
+</div>

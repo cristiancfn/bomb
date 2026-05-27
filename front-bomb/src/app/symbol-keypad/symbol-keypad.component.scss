@@ -1,0 +1,87 @@
+.keypad-module {
+    /* Diseño metálico plomizo industrial */
+    background-color: #3b4252;
+    padding: 25px;
+    border-radius: 12px;
+    border: 4px solid #2e3440;
+    display: inline-block;
+    box-shadow:
+        inset 0 0 15px rgba(0, 0, 0, 0.7),
+        /* Sombra interior para darle profundidad al panel */
+        0 8px 20px rgba(0, 0, 0, 0.8);
+
+    /* Indicador sutil de que el módulo fue desactivado */
+    &.resolved {
+        border-color: #276749;
+        /* Borde verde oscuro */
+        box-shadow:
+            inset 0 0 15px rgba(0, 0, 0, 0.7),
+            0 0 20px rgba(72, 187, 120, 0.3);
+    }
+}
+
+.keypad-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    /* Espacio entre los botones */
+}
+
+.symbol-button {
+    background-color: #e2e8f0;
+    border: 4px solid #cbd5e0;
+    border-bottom: 8px solid #a0aec0;
+    /* Crea el efecto 3D de botón alto */
+    border-radius: 8px;
+
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: #1a202c;
+
+    width: 110px;
+    height: 110px;
+    cursor: pointer;
+    transition: all 0.15s ease-out;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+
+    &:hover:not(:disabled):not(.pressed) {
+        background-color: #edf2f7;
+        /* Efecto "glow" al pasar el cursor */
+        box-shadow: 0 0 15px rgba(226, 232, 240, 0.6);
+    }
+
+    &:active:not(:disabled):not(.pressed) {
+        /* Efecto físico de presionar el botón (se hunde) */
+        transform: translateY(4px);
+        border-bottom-width: 4px;
+        background-color: #cbd5e0;
+    }
+
+    /* Estado: Botón correcto ya presionado */
+    &.pressed {
+        transform: translateY(4px);
+        border-bottom-width: 4px;
+        /* Mantiene el estado hundido */
+        background-color: #c6f6d5;
+        /* Tono verdoso indicando éxito */
+        color: #22543d;
+        border-color: #9ae6b4;
+
+        /* Glow verde constante para indicar progreso positivo */
+        box-shadow:
+            inset 0 0 10px rgba(0, 0, 0, 0.2),
+            0 0 15px rgba(72, 187, 120, 0.7);
+
+        pointer-events: none;
+        /* Evita que lo vuelvan a presionar */
+    }
+
+    &:disabled {
+        cursor: default;
+        opacity: 0.9;
+    }
+}
