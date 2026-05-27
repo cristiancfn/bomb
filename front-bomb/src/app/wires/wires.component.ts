@@ -34,6 +34,12 @@ export class WiresComponent {
     // Si no hay estado aún, abortamos
     if (!currentGameState) return;
 
+    this.cables.update(currentCables =>
+      currentCables.map(cable =>
+        cable.id === id ? { ...cable, isCut: true } : cable
+      )
+    );
+
     const roomId = currentGameState.roomId;
 
     // Extracción de variables para la lógica
