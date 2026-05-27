@@ -80,4 +80,16 @@ export class WebSocketService {
       console.error('No se puede resolver módulo: cliente desconectado.');
     }
   }
+
+  public forzarExplosion(roomId: string): void {
+    if (this.stompClient && this.stompClient.connected) {
+      this.stompClient.publish({
+        destination: `/app/explode/${roomId}`,
+        body: JSON.stringify({ roomId })
+      });
+      console.log(`[WebSocket] Evento de explosión enviado para la sala: ${roomId}`);
+    } else {
+      console.error('[WebSocket] No se pudo enviar el evento de explosión: Cliente no conectado.');
+    }
+  }
 }

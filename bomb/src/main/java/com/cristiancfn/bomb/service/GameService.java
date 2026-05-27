@@ -48,4 +48,13 @@ public class GameService {
         }
         return session;
     }
+
+    public GameSession forzarExplosion(String roomId) {
+        GameSession session = activeGames.get(roomId);
+        if (session != null) {
+            session.setStatus(GameSession.GameStatus.EXPLODED);
+        }
+        return session;
+    }
+
 }

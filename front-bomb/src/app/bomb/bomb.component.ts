@@ -13,9 +13,19 @@ import { SymbolKeypadComponent } from '../symbol-keypad/symbol-keypad.component'
 })
 export class BombComponent {
   private webSocketService = inject(WebSocketService);
+
+  // Signal con el estado actual del juego
   gameState = this.webSocketService.gameState;
 
   tiempoAgotado(): void {
     console.log("¡EL TIEMPO LLEGÓ A CERO!");
+
+    // Obtenemos el valor actual del Signal
+    const currentState = this.gameState();
+
+    // Si existe un estado y tenemos el roomId, enviamos la señal de detonación
+    if (currentState && currentState.roomId) {
+      this.webSocketService.forzarExplosion(currentState.roomId);
+    }
   }
 }

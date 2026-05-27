@@ -44,4 +44,14 @@ public class GameSyncController {
             messagingTemplate.convertAndSend("/topic/room/" + roomId, session);
         }
     }
+
+    @MessageMapping("/explode/{roomId}")
+    public void forzarExplosion(@DestinationVariable String roomId) {
+        GameSession session = gameService.forzarExplosion(roomId);
+
+        if (session != null) {
+            messagingTemplate.convertAndSend("/topic/room/" + roomId, session);
+        }
+    }
+
 }
