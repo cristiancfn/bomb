@@ -1,4 +1,4 @@
 package com.cristiancfn.bomb.dto;
 
-public record PlayerActionPayload(String playerName) {
+public record PlayerActionPayload(String playerName, String moduleId) {
 }

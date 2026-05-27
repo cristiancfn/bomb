@@ -71,11 +71,11 @@ export class WebSocketService {
     }
   }
 
-  public resolverModulo(roomId: string): void {
+  public resolverModulo(roomId: string, moduleId: string): void {
     if (this.stompClient && this.stompClient.active) {
       this.stompClient.publish({
         destination: `/app/resolve/${roomId}`,
-        body: JSON.stringify({ roomId, playerName: this.playerName() })
+        body: JSON.stringify({ roomId, playerName: this.playerName(), moduleId })
       });
     } else {
       console.error('No se puede resolver módulo: cliente desconectado.');

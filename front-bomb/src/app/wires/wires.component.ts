@@ -66,7 +66,7 @@ export class WiresComponent {
     // Resolución del módulo
     if (id === correctCableId) {
       this.isResolved.set(true);
-      this.webSocketService.resolverModulo(roomId);
+      this.webSocketService.resolverModulo(roomId, 'wires');
     } else {
       this.webSocketService.enviarStrike(roomId);
     }

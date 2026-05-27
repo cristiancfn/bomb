@@ -45,7 +45,8 @@ public class GameSyncController {
     public void resolverModulo(@DestinationVariable String roomId, PlayerActionPayload payload) {
         String activePlayerName = payload != null && payload.playerName() != null ? payload.playerName()
                 : "Desconocido";
-        GameSession session = gameService.resolverModulo(roomId, activePlayerName);
+        String moduleId = payload != null && payload.moduleId() != null ? payload.moduleId() : "unknown";
+        GameSession session = gameService.resolverModulo(roomId, activePlayerName, moduleId);
 
         if (session != null) {
             messagingTemplate.convertAndSend("/topic/room/" + roomId, session);

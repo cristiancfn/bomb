@@ -89,7 +89,7 @@ export class SimonSaysComponent {
       // Verificamos si terminamos las 4 etapas
       if (this.indiceUsuario() === 4) {
         this.isResolved.set(true);
-        this.webSocketService.resolverModulo(roomId);
+        this.webSocketService.resolverModulo(roomId, 'simon');
       }
     } else {
       // Falla el usuario

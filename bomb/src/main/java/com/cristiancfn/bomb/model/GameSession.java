@@ -16,7 +16,7 @@ public class GameSession {
     private Integer currentStrikes;
     private Integer maxStrikes;
     private Integer modulesCount;
-    private Integer modulesResolved;
+    private java.util.Set<String> resolvedModules = new java.util.HashSet<>();
     private String lastActor;
 
     public enum GameStatus {
@@ -24,5 +24,9 @@ public class GameSession {
         IN_PROGRESS,
         DEFUSED,
         EXPLODED
+    }
+
+    public Integer getModulesResolved() {
+        return resolvedModules != null ? resolvedModules.size() : 0;
     }
 }

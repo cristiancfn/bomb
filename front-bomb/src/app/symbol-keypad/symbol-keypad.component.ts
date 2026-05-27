@@ -51,7 +51,7 @@ export class SymbolKeypadComponent {
       // Verificamos si completó la secuencia
       if (this.indiceActual() === this.ordenCorrecto().length) {
         this.isResolved.set(true);
-        this.webSocketService.resolverModulo(roomId);
+        this.webSocketService.resolverModulo(roomId, 'symbols');
       }
     } else {
       // Símbolo incorrecto: strike y reinicio

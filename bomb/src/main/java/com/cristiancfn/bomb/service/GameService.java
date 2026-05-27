@@ -22,7 +22,7 @@ public class GameService {
                 0, // currentStrikes
                 3, // maxStrikes
                 3, // modulesCount
-                0, // modulesResolved
+                new java.util.HashSet<>(), // resolvedModules
                 playerName // lastActor
         );
         activeGames.put(roomId, session);
@@ -41,12 +41,14 @@ public class GameService {
         return session;
     }
 
-    public GameSession resolverModulo(String roomId, String playerName) {
+    public GameSession resolverModulo(String roomId, String playerName, String moduleId) {
         GameSession session = activeGames.get(roomId);
         if (session != null && session.getStatus() == GameSession.GameStatus.IN_PROGRESS) {
             session.setLastActor(playerName);
-            session.setModulesResolved(session.getModulesResolved() + 1);
-            if (session.getModulesResolved().equals(session.getModulesCount())) {
+            if (moduleId != null && !moduleId.isEmpty()) {
+                session.getResolvedModules().add(moduleId);
+            }
+            if (session.getResolvedModules().size() >= session.getModulesCount()) {
                 session.setStatus(GameSession.GameStatus.DEFUSED);
             }
         }
