@@ -5,6 +5,7 @@
     justify-content: center;
     align-items: center;
     font-family: 'Courier New', Courier, monospace;
+    padding: 40px 20px;
 }
 
 .active-bomb-ui {
@@ -12,30 +13,80 @@
     flex-direction: column;
     align-items: center;
     gap: 40px;
+    width: 100%;
+    max-width: 1100px;
+    /* Limita el ancho para que no se deforme en pantallas gigantes */
 }
 
+/* Panel superior (Temporizador y Estado) */
 .strike-indicator {
     text-align: center;
     background: #1a1a24;
-    border: 2px solid #333;
-    padding: 15px 30px;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
+    border: 3px solid #333;
+    padding: 20px 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8);
+    width: 100%;
+    max-width: 700px;
+    /* Panel de control centralizado */
 
     .text-red {
         color: #ff3333;
-        margin: 0 0 10px 0;
+        margin: 0 0 5px 0;
         font-size: 2.5rem;
         font-weight: 900;
         letter-spacing: 2px;
         animation: pulse-red 1.5s infinite;
     }
 
+    .serial-number {
+        color: #a0a0b0;
+        margin: 0 0 15px 0;
+        font-size: 1.2rem;
+        letter-spacing: 3px;
+    }
+
     .strike-text {
         color: #ffcc00;
-        margin: 0;
+        margin: 15px 0 0 0;
         font-size: 1.5rem;
     }
+}
+
+/* LA CARCASA DE LA BOMBA (Contenedor de Módulos) */
+.modules-container {
+    display: grid;
+    /* Subimos el ancho mínimo a 380px para que no se asfixien */
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 35px;
+    /* Aumentamos ligeramente el espacio entre ellos */
+    width: 100%;
+
+    background-color: #121215;
+    padding: 35px;
+    border-radius: 16px;
+    border: 6px solid #2a2a35;
+    box-shadow:
+        inset 0px 0px 40px rgba(0, 0, 0, 0.9),
+        0px 15px 40px rgba(0, 0, 0, 0.7);
+}
+
+app-wires,
+app-symbol-keypad,
+app-simon-says {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+    overflow: hidden;
+    /* Corta cualquier invasión al espacio vecino */
+
+    /* Efecto visual de "Cartucho de Hardware" individual */
+    background-color: #16161d;
+    border: 3px solid #34344a;
+    border-radius: 12px;
+    padding: 25px 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
 /* Paneles de pantalla completa para finales del juego */
@@ -46,6 +97,7 @@
     width: 100vw;
     height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     z-index: 1000;
@@ -55,13 +107,13 @@
     &.exploded {
         background-color: #aa0000;
         color: #fff;
-        box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.8);
+        box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.9);
     }
 
     &.defused {
         background-color: #008800;
         color: #fff;
-        box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.8);
+        box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.9);
     }
 
     .huge-text {
@@ -113,17 +165,13 @@
 
 .actor-text {
     color: #e2e8f0;
-    /* Un gris muy claro, casi blanco */
     font-size: 1.5rem;
     text-align: center;
     margin-top: 20px;
-    font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
     letter-spacing: 2px;
     text-transform: uppercase;
     text-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
-
-    /* Pequeña animación de entrada suave */
     animation: fadeIn 2s ease-in-out;
 }
 
