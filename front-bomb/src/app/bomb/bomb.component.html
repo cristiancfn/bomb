@@ -5,6 +5,7 @@
     <div class="active-bomb-ui">
         <div class="strike-indicator">
             <h1 class="text-red">BOMBA ACTIVA</h1>
+            <app-timer [initialSeconds]="state.timeRemainingSeconds" (timeOut)="tiempoAgotado()" />
             <h2 class="strike-text">Errores: {{ state.currentStrikes }} / {{ state.maxStrikes }}</h2>
         </div>
 
