@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jdk-jammy AS build
+FROM eclipse-temurin:24-jdk-jammy AS build
 COPY . .
 # Esta es la clave para el error 126:
 RUN chmod +x mvnw
