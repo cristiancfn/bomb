@@ -3,11 +3,12 @@ import { WiresComponent } from '../wires/wires.component';
 import { WebSocketService } from '../services/web-socket.service';
 import { TimerComponent } from '../timer/timer.component';
 import { SymbolKeypadComponent } from '../symbol-keypad/symbol-keypad.component';
+import { SimonSaysComponent } from "../simon-says/simon-says.component";
 
 @Component({
   selector: 'app-bomb',
   standalone: true,
-  imports: [WiresComponent, TimerComponent, SymbolKeypadComponent],
+  imports: [WiresComponent, TimerComponent, SymbolKeypadComponent, SimonSaysComponent],
   templateUrl: './bomb.component.html',
   styleUrl: './bomb.component.scss'
 })

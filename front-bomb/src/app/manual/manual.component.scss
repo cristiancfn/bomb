@@ -140,6 +140,70 @@ $red-ink: #cc0000;
     }
 }
 
+.manual-section {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px dashed #666;
+
+    .section-title {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+    }
+
+    .alert-box {
+        border: 2px solid #d32f2f;
+        background-color: #ffebee;
+        padding: 10px;
+        margin-bottom: 15px;
+        font-family: Arial, sans-serif;
+
+        .text-red {
+            color: #d32f2f;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+    }
+
+    .instructions {
+        font-family: 'Georgia', serif;
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+
+    .defusal-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: 'Courier New', Courier, monospace;
+        background-color: #fff;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+
+        th,
+        td {
+            border: 1px solid #333;
+            padding: 8px 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #e0e0e0;
+            font-weight: bold;
+        }
+
+        .residue-col {
+            font-size: 1.2rem;
+            font-weight: bold;
+            background-color: #f5f5f5;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+    }
+}
+
 .manual-footer {
     margin-top: 60px;
     text-align: center;

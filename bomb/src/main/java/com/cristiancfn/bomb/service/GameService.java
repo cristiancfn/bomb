@@ -20,7 +20,7 @@ public class GameService {
                 300, // timeRemainingSeconds
                 0, // currentStrikes
                 3, // maxStrikes
-                2, // modulesCount
+                3, // modulesCount
                 0 // modulesResolved
         );
         activeGames.put(roomId, session);

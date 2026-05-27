@@ -1,0 +1,134 @@
+.simon-module {
+    background-color: #2d3748; // Gris oscuro / panel
+    padding: 20px;
+    border-radius: 12px;
+    border: 4px solid #1a202c;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5), 0 8px 20px rgba(0, 0, 0, 0.7);
+
+    &.resolved {
+        border-color: #38a169; // Verde oscuro cuando se resuelve
+    }
+}
+
+.module-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 5px;
+
+    .play-btn {
+        background-color: #4a5568;
+        color: white;
+        border: 2px solid #a0aec0;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-weight: bold;
+        font-family: monospace;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.1s;
+
+        &:hover:not(:disabled) {
+            background-color: #718096;
+        }
+
+        &:active:not(:disabled) {
+            transform: scale(0.95);
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
+    .progress-indicator {
+        color: #e2e8f0;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 1.2rem;
+        font-weight: bold;
+        background-color: #1a202c;
+        padding: 5px 10px;
+        border-radius: 4px;
+        border: 1px inset #4a5568;
+    }
+}
+
+.simon-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.simon-btn {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    /* Botones circulares característicos de Simon Says */
+    border: 4px solid #1a202c;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    opacity: 0.4;
+    /* Opacos / apagados por defecto */
+
+    /* Colores base (oscuros para simular que están apagados) */
+    &.color-rojo {
+        background-color: #8b0000;
+    }
+
+    &.color-azul {
+        background-color: #00008b;
+    }
+
+    &.color-verde {
+        background-color: #006400;
+    }
+
+    &.color-amarillo {
+        background-color: #b8860b;
+    }
+
+    &:hover:not(:disabled) {
+        opacity: 0.7;
+    }
+
+    /* Estado ACTIVO o ILUMINADO (Glow intenso) */
+    &.active,
+    &:active:not(:disabled) {
+        opacity: 1;
+        border-color: #ffffff;
+    }
+
+    &.active.color-rojo,
+    &:active:not(:disabled).color-rojo {
+        background-color: #ff0000;
+        box-shadow: 0 0 25px 10px rgba(255, 0, 0, 0.8), inset 0 0 15px rgba(255, 255, 255, 0.5);
+    }
+
+    &.active.color-azul,
+    &:active:not(:disabled).color-azul {
+        background-color: #0000ff;
+        box-shadow: 0 0 25px 10px rgba(0, 0, 255, 0.8), inset 0 0 15px rgba(255, 255, 255, 0.5);
+    }
+
+    &.active.color-verde,
+    &:active:not(:disabled).color-verde {
+        background-color: #00ff00;
+        box-shadow: 0 0 25px 10px rgba(0, 255, 0, 0.8), inset 0 0 15px rgba(255, 255, 255, 0.5);
+    }
+
+    &.active.color-amarillo,
+    &:active:not(:disabled).color-amarillo {
+        background-color: #ffff00;
+        box-shadow: 0 0 25px 10px rgba(255, 255, 0, 0.8), inset 0 0 15px rgba(255, 255, 255, 0.5);
+    }
+
+    &:disabled {
+        cursor: default;
+    }
+}
