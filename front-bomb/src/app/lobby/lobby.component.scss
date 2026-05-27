@@ -56,25 +56,39 @@
     }
 }
 
-.btn-connect {
-    width: 100%;
-    padding: 12px;
-    background-color: #c53030;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.2s;
+.action-buttons {
+    display: flex;
+    gap: 15px;
 
-    &:hover:not(:disabled) {
-        background-color: #e53e3e;
+    button {
+        flex: 1;
+        padding: 12px;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.2s;
+
+        &:disabled {
+            background-color: #4a5568;
+            color: #a0aec0;
+            cursor: not-allowed;
+        }
     }
 
-    &:disabled {
-        background-color: #4a5568;
-        color: #a0aec0;
-        cursor: not-allowed;
+    .btn-connect {
+        background-color: #2b6cb0;
+        &:hover:not(:disabled) {
+            background-color: #3182ce;
+        }
+    }
+
+    .btn-start {
+        background-color: #c53030;
+        &:hover:not(:disabled) {
+            background-color: #e53e3e;
+        }
     }
 }

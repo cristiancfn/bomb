@@ -19,16 +19,16 @@ export class LobbyComponent {
   private webSocketService = inject(WebSocketService);
   private router = inject(Router);
 
+  // Exponemos las variables del servicio al template
+  isConnected = this.webSocketService.isConnected;
+  gameState = this.webSocketService.gameState;
+
   constructor() {
-    // Escuchamos cuando la conexión WebSocket se complete exitosamente
+    // Escuchamos los cambios en el estado del juego
     effect(() => {
-      if (this.webSocketService.isConnected()) {
-        const currentRoom = this.roomId().trim();
-        
-        // Una vez conectados, enviamos el comando para iniciar el juego
-        this.webSocketService.iniciarJuego(currentRoom);
-        
-        // Y navegamos a la vista de la bomba
+      const state = this.gameState();
+      // Si el juego pasa a IN_PROGRESS, todas las pestañas conectadas navegarán a la vez
+      if (state && state.status === 'IN_PROGRESS') {
         this.router.navigate(['/bomba']);
       }
     });
@@ -37,15 +37,21 @@ export class LobbyComponent {
   conectar(): void {
     const currentRoom = this.roomId().trim();
     if (currentRoom) {
-
       // Tomamos el nombre, o asignamos "Anónimo" por defecto
       const nombre = this.nombreJugador().trim() || 'Operario Anónimo';
       // Lo guardamos en el Signal global del servicio
       this.webSocketService.playerName.set(nombre);
 
-      // Iniciamos el proceso de conexión asíncrono
-      // (El effect de arriba se encargará del resto cuando termine)
+      // Iniciamos el proceso de conexión a la sala de espera
       this.webSocketService.conectar(currentRoom);
+    }
+  }
+
+  iniciar(): void {
+    const currentRoom = this.roomId().trim();
+    if (currentRoom && this.isConnected()) {
+      // Un solo operario presiona "iniciar" y el backend cambiará el estado para todos
+      this.webSocketService.iniciarJuego(currentRoom);
     }
   }
 }

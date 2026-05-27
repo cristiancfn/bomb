@@ -9,8 +9,13 @@
             <input type="text" [(ngModel)]="roomId" placeholder="Ingresa el ID de la Sala" class="lobby-input" />
         </div>
 
-        <button class="btn-connect" (click)="conectar()" [disabled]="!roomId()">
-            CONECTAR E INICIAR
-        </button>
+        <div class="action-buttons">
+            <button class="btn-connect" (click)="conectar()" [disabled]="!roomId() || isConnected()">
+                {{ isConnected() ? 'CONECTADO' : 'CONECTAR A SALA' }}
+            </button>
+            <button class="btn-start" (click)="iniciar()" [disabled]="!isConnected()">
+                INICIAR PARTIDA
+            </button>
+        </div>
     </div>
 </div>
