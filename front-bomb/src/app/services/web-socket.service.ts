@@ -2,6 +2,8 @@ import { Injectable, signal, WritableSignal } from '@angular/core';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { GameSession } from '../models/game-session';
+import { environment } from '../../environments/environment.prod';
+
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +22,7 @@ export class WebSocketService {
       console.warn('Ya existe una conexión WebSocket activa.');
       return;
     }
-    const socket = new SockJS('http://localhost:8080/ws-bomba');
+    const socket = new SockJS(`${environment.wsUrl}/ws-bomba`);
 
     this.stompClient = new Client({
       webSocketFactory: () => socket as any,
