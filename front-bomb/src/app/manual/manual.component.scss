@@ -1,0 +1,149 @@
+/* Variables para la estética del papel */
+$paper-color: #fdfbf7;
+$ink-color: #1a1a1a;
+$red-ink: #cc0000;
+
+.manual-page {
+    /* Simulando una hoja A4 */
+    background-color: $paper-color;
+    color: $ink-color;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    /* Fuente tipo documento impreso */
+
+    max-width: 800px;
+    margin: 40px auto;
+    /* Centrado en la pantalla */
+    padding: 60px 80px;
+    min-height: 1000px;
+    /* Asegura un tamaño mínimo similar a A4 */
+
+    border: 1px solid #dcdcdc;
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.4),
+        0 5px 15px rgba(0, 0, 0, 0.2);
+    /* Sombra realista de papel sobre una mesa */
+
+    position: relative;
+    overflow: hidden;
+    /* Evita que la marca de agua se desborde */
+}
+
+/* Marca de agua CLASIFICADO / TOP SECRET */
+.watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+
+    font-size: 10rem;
+    font-family: 'Impact', 'Arial Black', sans-serif;
+    color: rgba(204, 0, 0, 0.04);
+    /* Rojo extremadamente pálido */
+    white-space: nowrap;
+
+    pointer-events: none;
+    /* Permite hacer clic a través del texto */
+    z-index: 0;
+}
+
+/* Aseguramos que el contenido esté por encima de la marca de agua */
+.manual-header,
+.intro-section,
+.module-section,
+.manual-footer {
+    position: relative;
+    z-index: 1;
+}
+
+.manual-header {
+    text-align: center;
+    margin-bottom: 40px;
+
+    h1 {
+        font-size: 2.2rem;
+        font-weight: bold;
+        letter-spacing: 2px;
+        margin-bottom: 5px;
+    }
+
+    .classification {
+        color: $red-ink;
+        font-size: 1.6rem;
+        font-weight: bold;
+        letter-spacing: 8px;
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+}
+
+.separator {
+    border: 0;
+    border-top: 4px double $ink-color;
+    margin: 20px 0;
+}
+
+.intro-section {
+    border: 3px solid $ink-color;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.02);
+    /* Ligeramente oscurecido */
+    margin-bottom: 40px;
+
+    h3 {
+        margin-top: 0;
+        text-transform: uppercase;
+        text-align: center;
+        border-bottom: 1px solid $ink-color;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+        letter-spacing: 1px;
+    }
+
+    p {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.6;
+        text-align: justify;
+    }
+}
+
+.module-section {
+    margin-bottom: 40px;
+
+    h3 {
+        font-size: 1.5rem;
+        border-bottom: 2px solid #555;
+        padding-bottom: 5px;
+        margin-bottom: 15px;
+    }
+
+    .rule-text {
+        font-size: 1.15rem;
+        line-height: 1.7;
+        margin-bottom: 20px;
+        text-align: justify;
+    }
+
+    .symbol-list {
+        font-size: 1.2rem;
+        line-height: 2;
+        margin-left: 20px;
+
+        .symbol {
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin-right: 10px;
+            /* Fuente sin serifas para que los símbolos japoneses se vean nítidos */
+            font-family: 'Arial', sans-serif;
+        }
+    }
+}
+
+.manual-footer {
+    margin-top: 60px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #666;
+    font-style: italic;
+}
